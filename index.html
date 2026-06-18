@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Technology Event Radar</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap');
+
+    :root {
+      --bg: #0e0f14;
+      --surface: #16181f;
+      --surface2: #1e2029;
+      --border: #2a2d3a;
+      --accent: #5b6ef5;
+      --accent2: #38e2b0;
+      --text: #e8eaf0;
+      --text-muted: #7a7f9a;
+      --red: #f25c5c;
+      --yellow: #f5c842;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+    }
+
+    /* HEADER */
+    header {
+      padding: 28px 40px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--surface);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+
+    .logo span {
+      color: var(--accent);
+    }
+
+    .radar-dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent2);
+      margin-right: 8px;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.8); }
+    }
+
+    .header-right {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .btn {
+      padding: 9px 18px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      border: none;
+      transition: all 0.15s;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: white;
+    }
+
+    .btn-primary:hover { background: #4a5de0; }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+    }
+
+    .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+    .btn-danger {
+      background: var(--red);
+      color: white;
+    }
+
+    .btn-sm {
+      padding: 6px 12px;
+      font-size: 0.78rem;
+    }
+
+    /* MAIN LAYOUT */
+    main {
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 36px 40px;
+    }
+
+    /* STATS BAR */
+    .stats-bar {
+      display: flex;
+      gap: 24px;
+      margin-bottom: 32px;
+    }
+
+    .stat {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px 24px;
+      flex: 1;
+    }
+
+    .stat-value {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--accent2);
+    }
+
+    .stat-label {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* FILTERS */
+    .filters {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px 24px;
+      margin-bottom: 28px;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .filter-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      flex: 1;
+      min-width: 140px;
+    }
+
+    .filter-label {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    select, input[type="text"], input[type="date"], input[type="url"], textarea {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      padding: 9px 12px;
+      font-size: 0.85rem;
+      font-family: 'Inter', sans-serif;
+      outline: none;
+      transition: border-color 0.15s;
+      width: 100%;
+    }
+
+    select:focus, input:focus, textarea:focus {
+      border-color: var(--accent);
+    }
+
+    select option { background: var(--surface2); }
+
+    .filter-reset {
+      align-self: flex-end;
+      white-space: nowrap;
+    }
+
+    /* EVENT GRID */
+    .events-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .events-count {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .event-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 16px;
+    }
+
+    .event-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 22px;
+      transition: border-color 0.2s, transform 0.15s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .event-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    .event-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .event-card:hover::before { opacity: 1; }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 12px;
+    }
+
+    .event-type-badge {
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .badge-konferanse { background: rgba(91,110,245,0.15); color: var(--accent); }
+    .badge-seminar { background: rgba(56,226,176,0.15); color: var(--accent2); }
+    .badge-meetup { background: rgba(245,200,66,0.15); color: var(--yellow); }
+    .badge-webinar { background: rgba(242,92,92,0.15); color: var(--red); }
+    .badge-workshop { background: rgba(180,130,245,0.15); color: #b482f5; }
+    .badge-default { background: rgba(122,127,154,0.15); color: var(--text-muted); }
+
+    .event-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      line-height: 1.35;
+      margin-bottom: 10px;
+    }
+
+    .event-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      margin-bottom: 14px;
+    }
+
+    .meta-row {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .meta-icon { font-size: 0.85rem; }
+
+    .event-theme {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 500;
+      padding: 3px 9px;
+      border-radius: 6px;
+      background: var(--surface2);
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+      margin-right: 5px;
+      margin-bottom: 5px;
+    }
+
+    .card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+    }
+
+    .event-price {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--accent2);
+    }
+
+    .card-actions {
+      display: flex;
+      gap: 6px;
+    }
+
+    .btn-link {
+      display: inline-block;
+      padding: 6px 14px;
+      border-radius: 7px;
+      font-size: 0.78rem;
+      font-weight: 500;
+      background: var(--accent);
+      color: white;
+      text-decoration: none;
+      transition: background 0.15s;
+    }
+
+    .btn-link:hover { background: #4a5de0; }
+
+    .btn-edit {
+      padding: 6px 12px;
+      border-radius: 7px;
+      font-size: 0.78rem;
+      font-weight: 500;
+      background: transparent;
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: all 0.15s;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .btn-edit:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* EMPTY STATE */
+    .empty-state {
+      text-align: center;
+      padding: 80px 20px;
+      color: var(--text-muted);
+      grid-column: 1 / -1;
+    }
+
+    .empty-state h3 {
+      font-size: 1.1rem;
+      margin-bottom: 8px;
+      color: var(--text);
+    }
+
+    /* MODAL */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.7);
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-overlay.active { display: flex; }
+
+    .modal {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px;
+      width: 100%;
+      max-width: 560px;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .modal h2 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.2rem;
+      margin-bottom: 24px;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+      margin-top: 24px;
+    }
+
+    /* LOADING */
+    .loading {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 60px;
+      color: var(--text-muted);
+      grid-column: 1 / -1;
+    }
+
+    .spinner {
+      width: 20px; height: 20px;
+      border: 2px solid var(--border);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* TOAST */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 20px;
+      font-size: 0.85rem;
+      z-index: 999;
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.3s;
+      max-width: 320px;
+    }
+
+    .toast.show { transform: translateY(0); opacity: 1; }
+    .toast.success { border-color: var(--accent2); }
+    .toast.error { border-color: var(--red); }
+
+    /* SOURCE TAG */
+    .source-tag {
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    @media (max-width: 768px) {
+      header { padding: 16px 20px; }
+      main { padding: 24px 20px; }
+      .stats-bar { gap: 12px; }
+      .event-grid { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <span class="radar-dot"></span>Tech<span>Event</span>Radar
+  </div>
+  <div class="header-right">
+    <button class="btn btn-ghost" onclick="openModal()">+ Legg til arrangement</button>
+  </div>
+</header>
+
+<main>
+  <!-- STATS -->
+  <div class="stats-bar">
+    <div class="stat">
+      <div class="stat-value" id="totalCount">—</div>
+      <div class="stat-label">Arrangementer totalt</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value" id="upcomingCount">—</div>
+      <div class="stat-label">Kommende</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value" id="freeCount">—</div>
+      <div class="stat-label">Gratis</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value" id="thisMonthCount">—</div>
+      <div class="stat-label">Denne måneden</div>
+    </div>
+  </div>
+
+  <!-- FILTERS -->
+  <div class="filters">
+    <div class="filter-group">
+      <span class="filter-label">Søk</span>
+      <input type="text" id="searchInput" placeholder="Søk etter arrangement..." oninput="applyFilters()" />
+    </div>
+    <div class="filter-group">
+      <span class="filter-label">Tema</span>
+      <select id="themeFilter" onchange="applyFilters()">
+        <option value="">Alle temaer</option>
+        <option>KI / Maskinlæring</option>
+        <option>Data og analyse</option>
+        <option>Digitalisering</option>
+        <option>Sky og plattform</option>
+        <option>Sikkerhet</option>
+        <option>Produktutvikling</option>
+        <option>Innovasjon</option>
+        <option>Automatisering</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <span class="filter-label">Type</span>
+      <select id="typeFilter" onchange="applyFilters()">
+        <option value="">Alle typer</option>
+        <option>Konferanse</option>
+        <option>Seminar</option>
+        <option>Meetup</option>
+        <option>Webinar</option>
+        <option>Workshop</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <span class="filter-label">Sted</span>
+      <input type="text" id="locationFilter" placeholder="F.eks. Oslo" oninput="applyFilters()" />
+    </div>
+    <div class="filter-group">
+      <span class="filter-label">Pris</span>
+      <select id="priceFilter" onchange="applyFilters()">
+        <option value="">Alle priser</option>
+        <option value="gratis">Gratis</option>
+        <option value="betalt">Betalt</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <span class="filter-label">Fra dato</span>
+      <input type="date" id="dateFilter" onchange="applyFilters()" />
+    </div>
+    <button class="btn btn-ghost filter-reset" onclick="resetFilters()">Nullstill</button>
+  </div>
+
+  <!-- EVENTS -->
+  <div class="events-header">
+    <span class="events-count" id="eventsCount"></span>
+  </div>
+
+  <div class="event-grid" id="eventGrid">
+    <div class="loading"><div class="spinner"></div> Laster arrangementer...</div>
+  </div>
+</main>
+
+<!-- MODAL: Legg til / rediger arrangement -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <h2 id="modalTitle">Legg til arrangement</h2>
+    <input type="hidden" id="editId" />
+
+    <div class="form-group">
+      <label class="form-label">Tittel *</label>
+      <input type="text" id="formTitle" placeholder="Navn på arrangementet" />
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Dato *</label>
+        <input type="date" id="formDate" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Type</label>
+        <select id="formType">
+          <option value="">Velg type</option>
+          <option>Konferanse</option>
+          <option>Seminar</option>
+          <option>Meetup</option>
+          <option>Webinar</option>
+          <option>Workshop</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Sted</label>
+        <input type="text" id="formLocation" placeholder="F.eks. Oslo" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Pris</label>
+        <input type="text" id="formPrice" placeholder="F.eks. Gratis / 2500 kr" />
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Tema</label>
+      <select id="formTheme">
+        <option value="">Velg tema</option>
+        <option>KI / Maskinlæring</option>
+        <option>Data og analyse</option>
+        <option>Digitalisering</option>
+        <option>Sky og plattform</option>
+        <option>Sikkerhet</option>
+        <option>Produktutvikling</option>
+        <option>Innovasjon</option>
+        <option>Automatisering</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Nettside (URL)</label>
+      <input type="url" id="formUrl" placeholder="https://..." />
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Beskrivelse</label>
+      <textarea id="formDescription" placeholder="Kort beskrivelse av arrangementet..."></textarea>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal()">Avbryt</button>
+      <button class="btn btn-danger btn-sm" id="deleteBtn" onclick="deleteEvent()" style="display:none">Slett</button>
+      <button class="btn btn-primary" onclick="saveEvent()">Lagre</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+  const SUPABASE_URL = 'https://sydenxbarlzxmilyutkd.supabase.co';
+  const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN5ZGVueGJhcmx6eG1pbHl1dGtkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE3NzAxOTUsImV4cCI6MjA5NzM0NjE5NX0.P2hedFXcpY5Lp8qXfMbOKUyBS_muSM1mFoLhuo3VI74';
+  const HEADERS = {
+    'apikey': SUPABASE_KEY,
+    'Authorization': `Bearer ${SUPABASE_KEY}`,
+    'Content-Type': 'application/json',
+    'Prefer': 'return=representation'
+  };
+
+  let allEvents = [];
+  let filtered = [];
+
+  async function fetchEvents() {
+    try {
+      // Try lowercase table name first
+      let res = await fetch(`${SUPABASE_URL}/rest/v1/events?order=date.asc`, { headers: HEADERS });
+      let data = await res.json();
+
+      // If not an array, try capitalized table name
+      if (!Array.isArray(data)) {
+        res = await fetch(`${SUPABASE_URL}/rest/v1/Events?order=date.asc`, { headers: HEADERS });
+        data = await res.json();
+      }
+
+      if (!Array.isArray(data)) {
+        throw new Error(JSON.stringify(data));
+      }
+
+      allEvents = data;
+      applyFilters();
+      updateStats();
+    } catch (e) {
+      document.getElementById('eventGrid').innerHTML = `<div class="empty-state"><h3>Kunne ikke koble til databasen</h3><p>${e.message}</p></div>`;
+    }
+  }
+
+  function updateStats() {
+    const today = new Date().toISOString().split('T')[0];
+    const thisMonth = today.slice(0, 7);
+    document.getElementById('totalCount').textContent = allEvents.length;
+    document.getElementById('upcomingCount').textContent = allEvents.filter(e => e.date >= today).length;
+    document.getElementById('freeCount').textContent = allEvents.filter(e => e.price && e.price.toLowerCase().includes('gratis')).length;
+    document.getElementById('thisMonthCount').textContent = allEvents.filter(e => e.date && e.date.startsWith(thisMonth)).length;
+  }
+
+  function applyFilters() {
+    const search = document.getElementById('searchInput').value.toLowerCase();
+    const theme = document.getElementById('themeFilter').value;
+    const type = document.getElementById('typeFilter').value;
+    const location = document.getElementById('locationFilter').value.toLowerCase();
+    const price = document.getElementById('priceFilter').value;
+    const date = document.getElementById('dateFilter').value;
+
+    filtered = allEvents.filter(e => {
+      if (search && !`${e.title} ${e.description}`.toLowerCase().includes(search)) return false;
+      if (theme && e.theme !== theme) return false;
+      if (type && e.type !== type) return false;
+      if (location && !e.location?.toLowerCase().includes(location)) return false;
+      if (price === 'gratis' && !e.price?.toLowerCase().includes('gratis')) return false;
+      if (price === 'betalt' && e.price?.toLowerCase().includes('gratis')) return false;
+      if (date && e.date < date) return false;
+      return true;
+    });
+
+    renderEvents();
+  }
+
+  function resetFilters() {
+    ['searchInput','locationFilter'].forEach(id => document.getElementById(id).value = '');
+    ['themeFilter','typeFilter','priceFilter'].forEach(id => document.getElementById(id).value = '');
+    document.getElementById('dateFilter').value = '';
+    applyFilters();
+  }
+
+  function getBadgeClass(type) {
+    const map = { 'Konferanse': 'konferanse', 'Seminar': 'seminar', 'Meetup': 'meetup', 'Webinar': 'webinar', 'Workshop': 'workshop' };
+    return `badge-${map[type] || 'default'}`;
+  }
+
+  function formatDate(dateStr) {
+    if (!dateStr) return '—';
+    const d = new Date(dateStr + 'T12:00:00');
+    return d.toLocaleDateString('nb-NO', { day: 'numeric', month: 'long', year: 'numeric' });
+  }
+
+  function renderEvents() {
+    const grid = document.getElementById('eventGrid');
+    document.getElementById('eventsCount').textContent = `Viser ${filtered.length} av ${allEvents.length} arrangementer`;
+
+    if (filtered.length === 0) {
+      grid.innerHTML = `<div class="empty-state"><h3>Ingen arrangementer funnet</h3><p>Prøv å endre filtrene, eller legg til et nytt arrangement.</p></div>`;
+      return;
+    }
+
+    grid.innerHTML = filtered.map(e => `
+      <div class="event-card">
+        <div class="card-top">
+          <span class="event-type-badge ${getBadgeClass(e.type)}">${e.type || 'Arrangement'}</span>
+          <span class="source-tag">${e.source || 'manuelt'}</span>
+        </div>
+        <div class="event-title">${e.title || 'Uten tittel'}</div>
+        <div class="event-meta">
+          <div class="meta-row"><span class="meta-icon">📅</span>${formatDate(e.date)}</div>
+          ${e.location ? `<div class="meta-row"><span class="meta-icon">📍</span>${e.location}</div>` : ''}
+        </div>
+        ${e.theme ? `<span class="event-theme">${e.theme}</span>` : ''}
+        ${e.description ? `<p style="font-size:0.8rem;color:var(--text-muted);margin-top:10px;line-height:1.5">${e.description.slice(0,120)}${e.description.length > 120 ? '…' : ''}</p>` : ''}
+        <div class="card-footer">
+          <span class="event-price">${e.price || '—'}</span>
+          <div class="card-actions">
+            <button class="btn-edit" onclick="openEdit(${e.id})">Rediger</button>
+            ${e.url ? `<a class="btn-link" href="${e.url}" target="_blank">Les mer →</a>` : ''}
+          </div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  // MODAL
+  function openModal() {
+    document.getElementById('modalTitle').textContent = 'Legg til arrangement';
+    document.getElementById('editId').value = '';
+    document.getElementById('deleteBtn').style.display = 'none';
+    ['formTitle','formDate','formLocation','formPrice','formUrl','formDescription'].forEach(id => document.getElementById(id).value = '');
+    document.getElementById('formType').value = '';
+    document.getElementById('formTheme').value = '';
+    document.getElementById('modalOverlay').classList.add('active');
+  }
+
+  function openEdit(id) {
+    const e = allEvents.find(ev => ev.id === id);
+    if (!e) return;
+    document.getElementById('modalTitle').textContent = 'Rediger arrangement';
+    document.getElementById('editId').value = id;
+    document.getElementById('deleteBtn').style.display = 'block';
+    document.getElementById('formTitle').value = e.title || '';
+    document.getElementById('formDate').value = e.date || '';
+    document.getElementById('formLocation').value = e.location || '';
+    document.getElementById('formPrice').value = e.price || '';
+    document.getElementById('formUrl').value = e.url || '';
+    document.getElementById('formDescription').value = e.description || '';
+    document.getElementById('formType').value = e.type || '';
+    document.getElementById('formTheme').value = e.theme || '';
+    document.getElementById('modalOverlay').classList.add('active');
+  }
+
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('active');
+  }
+
+  async function saveEvent() {
+    const title = document.getElementById('formTitle').value.trim();
+    if (!title) { showToast('Tittel er påkrevd', 'error'); return; }
+
+    const data = {
+      title,
+      date: document.getElementById('formDate').value || null,
+      location: document.getElementById('formLocation').value.trim() || null,
+      price: document.getElementById('formPrice').value.trim() || null,
+      url: document.getElementById('formUrl').value.trim() || null,
+      description: document.getElementById('formDescription').value.trim() || null,
+      type: document.getElementById('formType').value || null,
+      theme: document.getElementById('formTheme').value || null,
+      source: 'manuelt'
+    };
+
+    const editId = document.getElementById('editId').value;
+
+    try {
+      let res;
+      if (editId) {
+        res = await fetch(`${SUPABASE_URL}/rest/v1/events?id=eq.${editId}`, {
+          method: 'PATCH', headers: HEADERS, body: JSON.stringify(data)
+        });
+      } else {
+        res = await fetch(`${SUPABASE_URL}/rest/v1/events`, {
+          method: 'POST', headers: HEADERS, body: JSON.stringify(data)
+        });
+      }
+
+      if (res.ok) {
+        showToast(editId ? 'Arrangement oppdatert!' : 'Arrangement lagt til!', 'success');
+        closeModal();
+        fetchEvents();
+      } else {
+        const err = await res.json();
+        showToast('Feil: ' + (err.message || 'Ukjent feil'), 'error');
+      }
+    } catch (e) {
+      showToast('Nettverksfeil: ' + e.message, 'error');
+    }
+  }
+
+  async function deleteEvent() {
+    const editId = document.getElementById('editId').value;
+    if (!editId || !confirm('Er du sikker på at du vil slette dette arrangementet?')) return;
+
+    try {
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/events?id=eq.${editId}`, {
+        method: 'DELETE', headers: HEADERS
+      });
+      if (res.ok) {
+        showToast('Arrangement slettet', 'success');
+        closeModal();
+        fetchEvents();
+      }
+    } catch (e) {
+      showToast('Feil ved sletting', 'error');
+    }
+  }
+
+  function showToast(msg, type = 'success') {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.className = `toast ${type} show`;
+    setTimeout(() => t.classList.remove('show'), 3000);
+  }
+
+  // Close modal on overlay click
+  document.getElementById('modalOverlay').addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
+  });
+
+  fetchEvents();
+</script>
+</body>
+</html>
