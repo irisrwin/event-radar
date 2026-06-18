@@ -6,486 +6,87 @@
   <title>Technology Event Radar</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap');
-
     :root {
-      --bg: #0e0f14;
-      --surface: #16181f;
-      --surface2: #1e2029;
-      --border: #2a2d3a;
-      --accent: #5b6ef5;
-      --accent2: #38e2b0;
-      --text: #e8eaf0;
-      --text-muted: #7a7f9a;
-      --red: #f25c5c;
-      --yellow: #f5c842;
+      --bg: #0e0f14; --surface: #16181f; --surface2: #1e2029; --border: #2a2d3a;
+      --accent: #5b6ef5; --accent2: #38e2b0; --text: #e8eaf0; --text-muted: #7a7f9a;
+      --red: #f25c5c; --yellow: #f5c842;
     }
-
     * { box-sizing: border-box; margin: 0; padding: 0; }
-
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'Inter', sans-serif;
-      min-height: 100vh;
-    }
-
-    /* HEADER */
-    header {
-      padding: 28px 40px;
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: var(--surface);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-
-    .logo {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 1.3rem;
-      font-weight: 700;
-      letter-spacing: -0.5px;
-    }
-
-    .logo span {
-      color: var(--accent);
-    }
-
-    .radar-dot {
-      display: inline-block;
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--accent2);
-      margin-right: 8px;
-      animation: pulse 2s infinite;
-    }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.4; transform: scale(0.8); }
-    }
-
-    .header-right {
-      display: flex;
-      gap: 12px;
-      align-items: center;
-    }
-
-    .btn {
-      padding: 9px 18px;
-      border-radius: 8px;
-      font-size: 0.85rem;
-      font-weight: 500;
-      cursor: pointer;
-      border: none;
-      transition: all 0.15s;
-      font-family: 'Inter', sans-serif;
-    }
-
-    .btn-primary {
-      background: var(--accent);
-      color: white;
-    }
-
+    body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; min-height: 100vh; }
+    header { padding: 28px 40px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; background: var(--surface); position: sticky; top: 0; z-index: 100; }
+    .logo { font-family: 'Space Grotesk', sans-serif; font-size: 1.3rem; font-weight: 700; letter-spacing: -0.5px; }
+    .logo span { color: var(--accent); }
+    .radar-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--accent2); margin-right: 8px; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(0.8); } }
+    .btn { padding: 9px 18px; border-radius: 8px; font-size: 0.85rem; font-weight: 500; cursor: pointer; border: none; transition: all 0.15s; font-family: 'Inter', sans-serif; }
+    .btn-primary { background: var(--accent); color: white; }
     .btn-primary:hover { background: #4a5de0; }
-
-    .btn-ghost {
-      background: transparent;
-      color: var(--text-muted);
-      border: 1px solid var(--border);
-    }
-
+    .btn-ghost { background: transparent; color: var(--text-muted); border: 1px solid var(--border); }
     .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
-
-    .btn-danger {
-      background: var(--red);
-      color: white;
-    }
-
-    .btn-sm {
-      padding: 6px 12px;
-      font-size: 0.78rem;
-    }
-
-    /* MAIN LAYOUT */
-    main {
-      max-width: 1300px;
-      margin: 0 auto;
-      padding: 36px 40px;
-    }
-
-    /* STATS BAR */
-    .stats-bar {
-      display: flex;
-      gap: 24px;
-      margin-bottom: 32px;
-    }
-
-    .stat {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 16px 24px;
-      flex: 1;
-    }
-
-    .stat-value {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 1.8rem;
-      font-weight: 700;
-      color: var(--accent2);
-    }
-
-    .stat-label {
-      font-size: 0.78rem;
-      color: var(--text-muted);
-      margin-top: 2px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    /* FILTERS */
-    .filters {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 20px 24px;
-      margin-bottom: 28px;
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      align-items: center;
-    }
-
-    .filter-group {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      flex: 1;
-      min-width: 140px;
-    }
-
-    .filter-label {
-      font-size: 0.7rem;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    select, input[type="text"], input[type="date"], input[type="url"], textarea {
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      color: var(--text);
-      padding: 9px 12px;
-      font-size: 0.85rem;
-      font-family: 'Inter', sans-serif;
-      outline: none;
-      transition: border-color 0.15s;
-      width: 100%;
-    }
-
-    select:focus, input:focus, textarea:focus {
-      border-color: var(--accent);
-    }
-
+    .btn-danger { background: var(--red); color: white; }
+    .btn-sm { padding: 6px 12px; font-size: 0.78rem; }
+    main { max-width: 1300px; margin: 0 auto; padding: 36px 40px; }
+    .stats-bar { display: flex; gap: 24px; margin-bottom: 32px; }
+    .stat { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 16px 24px; flex: 1; }
+    .stat-value { font-family: 'Space Grotesk', sans-serif; font-size: 1.8rem; font-weight: 700; color: var(--accent2); }
+    .stat-label { font-size: 0.78rem; color: var(--text-muted); margin-top: 2px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .filters { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 20px 24px; margin-bottom: 28px; display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+    .filter-group { display: flex; flex-direction: column; gap: 4px; flex: 1; min-width: 140px; }
+    .filter-label { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+    select, input[type="text"], input[type="date"], input[type="url"], textarea { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; color: var(--text); padding: 9px 12px; font-size: 0.85rem; font-family: 'Inter', sans-serif; outline: none; transition: border-color 0.15s; width: 100%; }
+    select:focus, input:focus, textarea:focus { border-color: var(--accent); }
     select option { background: var(--surface2); }
-
-    .filter-reset {
-      align-self: flex-end;
-      white-space: nowrap;
-    }
-
-    /* EVENT GRID */
-    .events-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 16px;
-    }
-
-    .events-count {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-    }
-
-    .event-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-      gap: 16px;
-    }
-
-    .event-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 22px;
-      transition: border-color 0.2s, transform 0.15s;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .event-card:hover {
-      border-color: var(--accent);
-      transform: translateY(-2px);
-    }
-
-    .event-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 3px;
-      background: linear-gradient(90deg, var(--accent), var(--accent2));
-      opacity: 0;
-      transition: opacity 0.2s;
-    }
-
+    .filter-reset { align-self: flex-end; white-space: nowrap; }
+    .events-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+    .events-count { font-size: 0.85rem; color: var(--text-muted); }
+    .event-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 16px; }
+    .event-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 22px; transition: border-color 0.2s, transform 0.15s; position: relative; overflow: hidden; }
+    .event-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+    .event-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--accent), var(--accent2)); opacity: 0; transition: opacity 0.2s; }
     .event-card:hover::before { opacity: 1; }
-
-    .card-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 12px;
-    }
-
-    .event-type-badge {
-      font-size: 0.7rem;
-      font-weight: 600;
-      padding: 3px 10px;
-      border-radius: 20px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
+    .card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
+    .event-type-badge { font-size: 0.7rem; font-weight: 600; padding: 3px 10px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.5px; }
     .badge-konferanse { background: rgba(91,110,245,0.15); color: var(--accent); }
     .badge-seminar { background: rgba(56,226,176,0.15); color: var(--accent2); }
     .badge-meetup { background: rgba(245,200,66,0.15); color: var(--yellow); }
     .badge-webinar { background: rgba(242,92,92,0.15); color: var(--red); }
     .badge-workshop { background: rgba(180,130,245,0.15); color: #b482f5; }
+    .badge-frokostseminar { background: rgba(255,160,50,0.15); color: #ffa032; }
     .badge-default { background: rgba(122,127,154,0.15); color: var(--text-muted); }
-
-    .event-title {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 1rem;
-      font-weight: 600;
-      line-height: 1.35;
-      margin-bottom: 10px;
-    }
-
-    .event-meta {
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-      margin-bottom: 14px;
-    }
-
-    .meta-row {
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      font-size: 0.8rem;
-      color: var(--text-muted);
-    }
-
+    .event-title { font-family: 'Space Grotesk', sans-serif; font-size: 1rem; font-weight: 600; line-height: 1.35; margin-bottom: 10px; }
+    .event-meta { display: flex; flex-direction: column; gap: 5px; margin-bottom: 14px; }
+    .meta-row { display: flex; align-items: center; gap: 7px; font-size: 0.8rem; color: var(--text-muted); }
     .meta-icon { font-size: 0.85rem; }
-
-    .event-theme {
-      display: inline-block;
-      font-size: 0.72rem;
-      font-weight: 500;
-      padding: 3px 9px;
-      border-radius: 6px;
-      background: var(--surface2);
-      color: var(--text-muted);
-      border: 1px solid var(--border);
-      margin-right: 5px;
-      margin-bottom: 5px;
-    }
-
-    .card-footer {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 14px;
-      padding-top: 14px;
-      border-top: 1px solid var(--border);
-    }
-
-    .event-price {
-      font-size: 0.82rem;
-      font-weight: 600;
-      color: var(--accent2);
-    }
-
-    .card-actions {
-      display: flex;
-      gap: 6px;
-    }
-
-    .btn-link {
-      display: inline-block;
-      padding: 6px 14px;
-      border-radius: 7px;
-      font-size: 0.78rem;
-      font-weight: 500;
-      background: var(--accent);
-      color: white;
-      text-decoration: none;
-      transition: background 0.15s;
-    }
-
+    .event-theme { display: inline-block; font-size: 0.72rem; font-weight: 500; padding: 3px 9px; border-radius: 6px; background: var(--surface2); color: var(--text-muted); border: 1px solid var(--border); margin-right: 5px; margin-bottom: 5px; }
+    .card-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border); }
+    .event-price { font-size: 0.82rem; font-weight: 600; color: var(--accent2); }
+    .card-actions { display: flex; gap: 6px; }
+    .btn-link { display: inline-block; padding: 6px 14px; border-radius: 7px; font-size: 0.78rem; font-weight: 500; background: var(--accent); color: white; text-decoration: none; transition: background 0.15s; }
     .btn-link:hover { background: #4a5de0; }
-
-    .btn-edit {
-      padding: 6px 12px;
-      border-radius: 7px;
-      font-size: 0.78rem;
-      font-weight: 500;
-      background: transparent;
-      color: var(--text-muted);
-      border: 1px solid var(--border);
-      cursor: pointer;
-      transition: all 0.15s;
-      font-family: 'Inter', sans-serif;
-    }
-
+    .btn-edit { padding: 6px 12px; border-radius: 7px; font-size: 0.78rem; font-weight: 500; background: transparent; color: var(--text-muted); border: 1px solid var(--border); cursor: pointer; transition: all 0.15s; font-family: 'Inter', sans-serif; }
     .btn-edit:hover { border-color: var(--accent); color: var(--accent); }
-
-    /* EMPTY STATE */
-    .empty-state {
-      text-align: center;
-      padding: 80px 20px;
-      color: var(--text-muted);
-      grid-column: 1 / -1;
-    }
-
-    .empty-state h3 {
-      font-size: 1.1rem;
-      margin-bottom: 8px;
-      color: var(--text);
-    }
-
-    /* MODAL */
-    .modal-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.7);
-      z-index: 200;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
-
+    .empty-state { text-align: center; padding: 80px 20px; color: var(--text-muted); grid-column: 1 / -1; }
+    .empty-state h3 { font-size: 1.1rem; margin-bottom: 8px; color: var(--text); }
+    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 200; align-items: center; justify-content: center; padding: 20px; }
     .modal-overlay.active { display: flex; }
-
-    .modal {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 32px;
-      width: 100%;
-      max-width: 560px;
-      max-height: 90vh;
-      overflow-y: auto;
-    }
-
-    .modal h2 {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 1.2rem;
-      margin-bottom: 24px;
-    }
-
-    .form-group {
-      margin-bottom: 16px;
-    }
-
-    .form-label {
-      display: block;
-      font-size: 0.78rem;
-      color: var(--text-muted);
-      margin-bottom: 6px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    textarea {
-      resize: vertical;
-      min-height: 80px;
-    }
-
-    .form-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
-
-    .modal-actions {
-      display: flex;
-      gap: 10px;
-      justify-content: flex-end;
-      margin-top: 24px;
-    }
-
-    /* LOADING */
-    .loading {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      padding: 60px;
-      color: var(--text-muted);
-      grid-column: 1 / -1;
-    }
-
-    .spinner {
-      width: 20px; height: 20px;
-      border: 2px solid var(--border);
-      border-top-color: var(--accent);
-      border-radius: 50%;
-      animation: spin 0.7s linear infinite;
-    }
-
+    .modal { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 32px; width: 100%; max-width: 560px; max-height: 90vh; overflow-y: auto; }
+    .modal h2 { font-family: 'Space Grotesk', sans-serif; font-size: 1.2rem; margin-bottom: 24px; }
+    .form-group { margin-bottom: 16px; }
+    .form-label { display: block; font-size: 0.78rem; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+    textarea { resize: vertical; min-height: 80px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 24px; }
+    .loading { display: flex; align-items: center; justify-content: center; gap: 10px; padding: 60px; color: var(--text-muted); grid-column: 1 / -1; }
+    .spinner { width: 20px; height: 20px; border: 2px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.7s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
-
-    /* TOAST */
-    .toast {
-      position: fixed;
-      bottom: 24px;
-      right: 24px;
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 14px 20px;
-      font-size: 0.85rem;
-      z-index: 999;
-      transform: translateY(100px);
-      opacity: 0;
-      transition: all 0.3s;
-      max-width: 320px;
-    }
-
+    .toast { position: fixed; bottom: 24px; right: 24px; background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; padding: 14px 20px; font-size: 0.85rem; z-index: 999; transform: translateY(100px); opacity: 0; transition: all 0.3s; max-width: 320px; }
     .toast.show { transform: translateY(0); opacity: 1; }
     .toast.success { border-color: var(--accent2); }
     .toast.error { border-color: var(--red); }
-
-    /* SOURCE TAG */
-    .source-tag {
-      font-size: 0.65rem;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
+    .source-tag { font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
     @media (max-width: 768px) {
-      header { padding: 16px 20px; }
-      main { padding: 24px 20px; }
-      .stats-bar { gap: 12px; }
-      .event-grid { grid-template-columns: 1fr; }
+      header { padding: 16px 20px; } main { padding: 24px 20px; }
+      .stats-bar { gap: 12px; } .event-grid { grid-template-columns: 1fr; }
       .form-row { grid-template-columns: 1fr; }
     }
   </style>
@@ -493,36 +94,20 @@
 <body>
 
 <header>
-  <div class="logo">
-    <span class="radar-dot"></span>Tech<span>Event</span>Radar
-  </div>
+  <div class="logo"><span class="radar-dot"></span>Tech<span>Event</span>Radar</div>
   <div class="header-right">
     <button class="btn btn-ghost" onclick="openModal()">+ Legg til arrangement</button>
   </div>
 </header>
 
 <main>
-  <!-- STATS -->
   <div class="stats-bar">
-    <div class="stat">
-      <div class="stat-value" id="totalCount">—</div>
-      <div class="stat-label">Arrangementer totalt</div>
-    </div>
-    <div class="stat">
-      <div class="stat-value" id="upcomingCount">—</div>
-      <div class="stat-label">Kommende</div>
-    </div>
-    <div class="stat">
-      <div class="stat-value" id="freeCount">—</div>
-      <div class="stat-label">Gratis</div>
-    </div>
-    <div class="stat">
-      <div class="stat-value" id="thisMonthCount">—</div>
-      <div class="stat-label">Denne måneden</div>
-    </div>
+    <div class="stat"><div class="stat-value" id="totalCount">—</div><div class="stat-label">Arrangementer totalt</div></div>
+    <div class="stat"><div class="stat-value" id="upcomingCount">—</div><div class="stat-label">Kommende</div></div>
+    <div class="stat"><div class="stat-value" id="freeCount">—</div><div class="stat-label">Gratis</div></div>
+    <div class="stat"><div class="stat-value" id="thisMonthCount">—</div><div class="stat-label">Denne måneden</div></div>
   </div>
 
-  <!-- FILTERS -->
   <div class="filters">
     <div class="filter-group">
       <span class="filter-label">Søk</span>
@@ -551,6 +136,7 @@
         <option>Meetup</option>
         <option>Webinar</option>
         <option>Workshop</option>
+        <option>Frokostseminar</option>
       </select>
     </div>
     <div class="filter-group">
@@ -572,17 +158,15 @@
     <button class="btn btn-ghost filter-reset" onclick="resetFilters()">Nullstill</button>
   </div>
 
-  <!-- EVENTS -->
   <div class="events-header">
     <span class="events-count" id="eventsCount"></span>
   </div>
-
   <div class="event-grid" id="eventGrid">
     <div class="loading"><div class="spinner"></div> Laster arrangementer...</div>
   </div>
 </main>
 
-<!-- MODAL: Legg til / rediger arrangement -->
+<!-- MODAL -->
 <div class="modal-overlay" id="modalOverlay">
   <div class="modal">
     <h2 id="modalTitle">Legg til arrangement</h2>
@@ -595,9 +179,27 @@
 
     <div class="form-row">
       <div class="form-group">
-        <label class="form-label">Dato *</label>
+        <label class="form-label">Startdato *</label>
         <input type="date" id="formDate" />
       </div>
+      <div class="form-group">
+        <label class="form-label">Sluttdato</label>
+        <input type="date" id="formEndDate" />
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Starttidspunkt</label>
+        <input type="text" id="formStartTime" placeholder="F.eks. 08:00" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Sluttidspunkt</label>
+        <input type="text" id="formEndTime" placeholder="F.eks. 09:30" />
+      </div>
+    </div>
+
+    <div class="form-row">
       <div class="form-group">
         <label class="form-label">Type</label>
         <select id="formType">
@@ -607,34 +209,34 @@
           <option>Meetup</option>
           <option>Webinar</option>
           <option>Workshop</option>
+          <option>Frokostseminar</option>
         </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Sted</label>
+        <input type="text" id="formLocation" placeholder="F.eks. Oslo" />
       </div>
     </div>
 
     <div class="form-row">
       <div class="form-group">
-        <label class="form-label">Sted</label>
-        <input type="text" id="formLocation" placeholder="F.eks. Oslo" />
-      </div>
-      <div class="form-group">
         <label class="form-label">Pris</label>
         <input type="text" id="formPrice" placeholder="F.eks. Gratis / 2500 kr" />
       </div>
-    </div>
-
-    <div class="form-group">
-      <label class="form-label">Tema</label>
-      <select id="formTheme">
-        <option value="">Velg tema</option>
-        <option>KI / Maskinlæring</option>
-        <option>Data og analyse</option>
-        <option>Digitalisering</option>
-        <option>Sky og plattform</option>
-        <option>Sikkerhet</option>
-        <option>Produktutvikling</option>
-        <option>Innovasjon</option>
-        <option>Automatisering</option>
-      </select>
+      <div class="form-group">
+        <label class="form-label">Tema</label>
+        <select id="formTheme">
+          <option value="">Velg tema</option>
+          <option>KI / Maskinlæring</option>
+          <option>Data og analyse</option>
+          <option>Digitalisering</option>
+          <option>Sky og plattform</option>
+          <option>Sikkerhet</option>
+          <option>Produktutvikling</option>
+          <option>Innovasjon</option>
+          <option>Automatisering</option>
+        </select>
+      </div>
     </div>
 
     <div class="form-group">
@@ -655,38 +257,20 @@
   </div>
 </div>
 
-<!-- TOAST -->
 <div class="toast" id="toast"></div>
 
 <script>
   const SUPABASE_URL = 'https://sydenxbarlzxmilyutkd.supabase.co';
   const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN5ZGVueGJhcmx6eG1pbHl1dGtkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE3NzAxOTUsImV4cCI6MjA5NzM0NjE5NX0.P2hedFXcpY5Lp8qXfMbOKUyBS_muSM1mFoLhuo3VI74';
-  const HEADERS = {
-    'apikey': SUPABASE_KEY,
-    'Authorization': `Bearer ${SUPABASE_KEY}`,
-    'Content-Type': 'application/json',
-    'Prefer': 'return=representation'
-  };
+  const HEADERS = { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=representation' };
 
-  let allEvents = [];
-  let filtered = [];
+  let allEvents = [], filtered = [];
 
   async function fetchEvents() {
     try {
-      // Try lowercase table name first
-      let res = await fetch(`${SUPABASE_URL}/rest/v1/events?order=date.asc`, { headers: HEADERS });
-      let data = await res.json();
-
-      // If not an array, try capitalized table name
-      if (!Array.isArray(data)) {
-        res = await fetch(`${SUPABASE_URL}/rest/v1/Events?order=date.asc`, { headers: HEADERS });
-        data = await res.json();
-      }
-
-      if (!Array.isArray(data)) {
-        throw new Error(JSON.stringify(data));
-      }
-
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/events?order=date.asc`, { headers: HEADERS });
+      const data = await res.json();
+      if (!Array.isArray(data)) throw new Error(JSON.stringify(data));
       allEvents = data;
       applyFilters();
       updateStats();
@@ -711,7 +295,6 @@
     const location = document.getElementById('locationFilter').value.toLowerCase();
     const price = document.getElementById('priceFilter').value;
     const date = document.getElementById('dateFilter').value;
-
     filtered = allEvents.filter(e => {
       if (search && !`${e.title} ${e.description}`.toLowerCase().includes(search)) return false;
       if (theme && e.theme !== theme) return false;
@@ -722,7 +305,6 @@
       if (date && e.date < date) return false;
       return true;
     });
-
     renderEvents();
   }
 
@@ -734,26 +316,35 @@
   }
 
   function getBadgeClass(type) {
-    const map = { 'Konferanse': 'konferanse', 'Seminar': 'seminar', 'Meetup': 'meetup', 'Webinar': 'webinar', 'Workshop': 'workshop' };
+    const map = { 'Konferanse': 'konferanse', 'Seminar': 'seminar', 'Meetup': 'meetup', 'Webinar': 'webinar', 'Workshop': 'workshop', 'Frokostseminar': 'frokostseminar' };
     return `badge-${map[type] || 'default'}`;
   }
 
-  function formatDate(dateStr) {
-    if (!dateStr) return '—';
-    const d = new Date(dateStr + 'T12:00:00');
-    return d.toLocaleDateString('nb-NO', { day: 'numeric', month: 'long', year: 'numeric' });
+  function formatDate(start, end) {
+    if (!start) return '—';
+    const opts = { day: 'numeric', month: 'long', year: 'numeric' };
+    const s = new Date(start + 'T12:00:00').toLocaleDateString('nb-NO', opts);
+    if (!end || end === start) return s;
+    const e = new Date(end + 'T12:00:00').toLocaleDateString('nb-NO', opts);
+    return `${s} – ${e}`;
+  }
+
+  function formatTime(start_time, end_time) {
+    if (!start_time) return null;
+    if (!end_time) return start_time;
+    return `${start_time}–${end_time}`;
   }
 
   function renderEvents() {
     const grid = document.getElementById('eventGrid');
     document.getElementById('eventsCount').textContent = `Viser ${filtered.length} av ${allEvents.length} arrangementer`;
-
     if (filtered.length === 0) {
       grid.innerHTML = `<div class="empty-state"><h3>Ingen arrangementer funnet</h3><p>Prøv å endre filtrene, eller legg til et nytt arrangement.</p></div>`;
       return;
     }
-
-    grid.innerHTML = filtered.map(e => `
+    grid.innerHTML = filtered.map(e => {
+      const timeStr = formatTime(e.start_time, e.end_time);
+      return `
       <div class="event-card">
         <div class="card-top">
           <span class="event-type-badge ${getBadgeClass(e.type)}">${e.type || 'Arrangement'}</span>
@@ -761,7 +352,8 @@
         </div>
         <div class="event-title">${e.title || 'Uten tittel'}</div>
         <div class="event-meta">
-          <div class="meta-row"><span class="meta-icon">📅</span>${formatDate(e.date)}</div>
+          <div class="meta-row"><span class="meta-icon">📅</span>${formatDate(e.date, e.end_date)}</div>
+          ${timeStr ? `<div class="meta-row"><span class="meta-icon">🕐</span>${timeStr}</div>` : ''}
           ${e.location ? `<div class="meta-row"><span class="meta-icon">📍</span>${e.location}</div>` : ''}
         </div>
         ${e.theme ? `<span class="event-theme">${e.theme}</span>` : ''}
@@ -773,16 +365,15 @@
             ${e.url ? `<a class="btn-link" href="${e.url}" target="_blank">Les mer →</a>` : ''}
           </div>
         </div>
-      </div>
-    `).join('');
+      </div>`;
+    }).join('');
   }
 
-  // MODAL
   function openModal() {
     document.getElementById('modalTitle').textContent = 'Legg til arrangement';
     document.getElementById('editId').value = '';
     document.getElementById('deleteBtn').style.display = 'none';
-    ['formTitle','formDate','formLocation','formPrice','formUrl','formDescription'].forEach(id => document.getElementById(id).value = '');
+    ['formTitle','formDate','formEndDate','formStartTime','formEndTime','formLocation','formPrice','formUrl','formDescription'].forEach(id => document.getElementById(id).value = '');
     document.getElementById('formType').value = '';
     document.getElementById('formTheme').value = '';
     document.getElementById('modalOverlay').classList.add('active');
@@ -796,6 +387,9 @@
     document.getElementById('deleteBtn').style.display = 'block';
     document.getElementById('formTitle').value = e.title || '';
     document.getElementById('formDate').value = e.date || '';
+    document.getElementById('formEndDate').value = e.end_date || '';
+    document.getElementById('formStartTime').value = e.start_time || '';
+    document.getElementById('formEndTime').value = e.end_time || '';
     document.getElementById('formLocation').value = e.location || '';
     document.getElementById('formPrice').value = e.price || '';
     document.getElementById('formUrl').value = e.url || '';
@@ -805,17 +399,17 @@
     document.getElementById('modalOverlay').classList.add('active');
   }
 
-  function closeModal() {
-    document.getElementById('modalOverlay').classList.remove('active');
-  }
+  function closeModal() { document.getElementById('modalOverlay').classList.remove('active'); }
 
   async function saveEvent() {
     const title = document.getElementById('formTitle').value.trim();
     if (!title) { showToast('Tittel er påkrevd', 'error'); return; }
-
     const data = {
       title,
       date: document.getElementById('formDate').value || null,
+      end_date: document.getElementById('formEndDate').value || null,
+      start_time: document.getElementById('formStartTime').value.trim() || null,
+      end_time: document.getElementById('formEndTime').value.trim() || null,
       location: document.getElementById('formLocation').value.trim() || null,
       price: document.getElementById('formPrice').value.trim() || null,
       url: document.getElementById('formUrl').value.trim() || null,
@@ -824,50 +418,26 @@
       theme: document.getElementById('formTheme').value || null,
       source: 'manuelt'
     };
-
     const editId = document.getElementById('editId').value;
-
     try {
       let res;
       if (editId) {
-        res = await fetch(`${SUPABASE_URL}/rest/v1/events?id=eq.${editId}`, {
-          method: 'PATCH', headers: HEADERS, body: JSON.stringify(data)
-        });
+        res = await fetch(`${SUPABASE_URL}/rest/v1/events?id=eq.${editId}`, { method: 'PATCH', headers: HEADERS, body: JSON.stringify(data) });
       } else {
-        res = await fetch(`${SUPABASE_URL}/rest/v1/events`, {
-          method: 'POST', headers: HEADERS, body: JSON.stringify(data)
-        });
+        res = await fetch(`${SUPABASE_URL}/rest/v1/events`, { method: 'POST', headers: HEADERS, body: JSON.stringify(data) });
       }
-
-      if (res.ok) {
-        showToast(editId ? 'Arrangement oppdatert!' : 'Arrangement lagt til!', 'success');
-        closeModal();
-        fetchEvents();
-      } else {
-        const err = await res.json();
-        showToast('Feil: ' + (err.message || 'Ukjent feil'), 'error');
-      }
-    } catch (e) {
-      showToast('Nettverksfeil: ' + e.message, 'error');
-    }
+      if (res.ok) { showToast(editId ? 'Arrangement oppdatert!' : 'Arrangement lagt til!', 'success'); closeModal(); fetchEvents(); }
+      else { const err = await res.json(); showToast('Feil: ' + (err.message || 'Ukjent feil'), 'error'); }
+    } catch (e) { showToast('Nettverksfeil: ' + e.message, 'error'); }
   }
 
   async function deleteEvent() {
     const editId = document.getElementById('editId').value;
     if (!editId || !confirm('Er du sikker på at du vil slette dette arrangementet?')) return;
-
     try {
-      const res = await fetch(`${SUPABASE_URL}/rest/v1/events?id=eq.${editId}`, {
-        method: 'DELETE', headers: HEADERS
-      });
-      if (res.ok) {
-        showToast('Arrangement slettet', 'success');
-        closeModal();
-        fetchEvents();
-      }
-    } catch (e) {
-      showToast('Feil ved sletting', 'error');
-    }
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/events?id=eq.${editId}`, { method: 'DELETE', headers: HEADERS });
+      if (res.ok) { showToast('Arrangement slettet', 'success'); closeModal(); fetchEvents(); }
+    } catch (e) { showToast('Feil ved sletting', 'error'); }
   }
 
   function showToast(msg, type = 'success') {
@@ -877,11 +447,7 @@
     setTimeout(() => t.classList.remove('show'), 3000);
   }
 
-  // Close modal on overlay click
-  document.getElementById('modalOverlay').addEventListener('click', function(e) {
-    if (e.target === this) closeModal();
-  });
-
+  document.getElementById('modalOverlay').addEventListener('click', function(e) { if (e.target === this) closeModal(); });
   fetchEvents();
 </script>
 </body>
