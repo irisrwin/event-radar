@@ -31,20 +31,46 @@
     .btn-sm { padding: 6px 12px; font-size: 0.78rem; }
 
     /* HERO */
-    .hero { position: relative; min-height: 240px; display: flex; align-items: center; overflow: hidden; background: linear-gradient(135deg, #0a0b0f 0%, #0d1033 40%, #0a1a2e 70%, #0a0b0f 100%); padding: 48px 32px; }
+    .hero { position: relative; min-height: 280px; display: flex; align-items: center; overflow: hidden; background: linear-gradient(135deg, #0a0b0f 0%, #0d1033 40%, #0a1a2e 70%, #0a0b0f 100%); padding: 48px 40px; }
     .hero-bg { position: absolute; inset: 0; background: radial-gradient(ellipse at 25% 50%, rgba(91,110,245,0.18) 0%, transparent 55%), radial-gradient(ellipse at 75% 30%, rgba(56,226,176,0.08) 0%, transparent 50%); }
-    .hero-radar { position: absolute; right: 60px; top: 50%; transform: translateY(-50%); width: 240px; height: 240px; opacity: 0.12; }
-    .radar-ring { position: absolute; border: 1px solid var(--accent2); border-radius: 50%; top: 50%; left: 50%; transform: translate(-50%, -50%); }
-    .radar-sweep { position: absolute; width: 50%; height: 50%; top: 0; left: 50%; transform-origin: bottom left; background: conic-gradient(from 0deg, transparent 0deg, rgba(56,226,176,0.4) 20deg, transparent 20deg); animation: sweep 4s linear infinite; border-radius: 0 100% 0 0; }
-    @keyframes sweep { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
-    .hero-content { position: relative; z-index: 2; max-width: 580px; }
+    .hero-content { position: relative; z-index: 2; flex: 1; max-width: 55%; }
     .hero-tag { display: inline-flex; align-items: center; gap: 6px; background: rgba(56,226,176,0.1); border: 1px solid rgba(56,226,176,0.25); color: var(--accent2); font-size: 0.7rem; font-weight: 600; padding: 3px 10px; border-radius: 20px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 14px; }
-    .hero h1 { font-family: 'Space Grotesk', sans-serif; font-size: 2.1rem; font-weight: 700; line-height: 1.15; letter-spacing: -0.5px; margin-bottom: 10px; }
+    .hero h1 { font-family: 'Space Grotesk', sans-serif; font-size: 2.4rem; font-weight: 700; line-height: 1.1; letter-spacing: -1px; margin-bottom: 10px; }
     .hero h1 em { color: var(--accent); font-style: normal; }
-    .hero p { color: var(--text-muted); font-size: 0.92rem; line-height: 1.6; margin-bottom: 22px; max-width: 460px; }
-    .hero-stats { display: flex; gap: 28px; }
-    .hero-stat-value { font-family: 'Space Grotesk', sans-serif; font-size: 1.5rem; font-weight: 700; color: var(--accent2); }
-    .hero-stat-label { font-size: 0.68rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; }
+    .hero p { color: var(--text-muted); font-size: 0.9rem; line-height: 1.6; margin-bottom: 24px; max-width: 440px; }
+    .hero-stats { display: flex; gap: 32px; margin-bottom: 20px; }
+    .hero-stat-value { font-family: 'Space Grotesk', sans-serif; font-size: 1.6rem; font-weight: 700; color: var(--accent2); }
+    .hero-stat-label { font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; }
+    .hero-next { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 8px 14px; font-size: 0.8rem; color: var(--text-muted); }
+    .hero-next strong { color: var(--text); font-weight: 600; }
+    .hero-next .next-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent2); flex-shrink: 0; animation: pulse 2s infinite; }
+
+    /* TECH RADAR ILLUSTRATION */
+    .hero-visual { position: relative; z-index: 2; flex-shrink: 0; width: 320px; height: 280px; display: flex; align-items: center; justify-content: center; margin-left: auto; }
+    .radar-wrap { position: relative; width: 260px; height: 260px; }
+    .radar-ring { position: absolute; border-radius: 50%; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+    .radar-ring-1 { width: 60px; height: 60px; border: 1px solid rgba(56,226,176,0.5); }
+    .radar-ring-2 { width: 120px; height: 120px; border: 1px solid rgba(56,226,176,0.35); }
+    .radar-ring-3 { width: 180px; height: 180px; border: 1px solid rgba(56,226,176,0.2); }
+    .radar-ring-4 { width: 240px; height: 240px; border: 1px solid rgba(56,226,176,0.1); }
+    .radar-cross { position: absolute; top: 50%; left: 0; right: 0; height: 1px; background: rgba(56,226,176,0.15); }
+    .radar-cross-v { position: absolute; left: 50%; top: 0; bottom: 0; width: 1px; background: rgba(56,226,176,0.15); }
+    .radar-sweep { position: absolute; width: 50%; height: 50%; top: 50%; left: 50%; transform-origin: top left; background: conic-gradient(from 270deg, rgba(56,226,176,0.0) 0deg, rgba(56,226,176,0.35) 40deg, rgba(56,226,176,0.0) 40deg); animation: sweep 3s linear infinite; }
+    @keyframes sweep { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+    .radar-center { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 8px; height: 8px; border-radius: 50%; background: var(--accent2); box-shadow: 0 0 12px var(--accent2); }
+
+    /* Blips */
+    .radar-blip { position: absolute; border-radius: 50%; background: var(--accent2); box-shadow: 0 0 6px var(--accent2); animation: blip 3s infinite; }
+    @keyframes blip { 0%,100%{opacity:0;transform:scale(0.5)} 50%{opacity:1;transform:scale(1)} 75%{opacity:0.6} }
+
+    /* Coordinate labels */
+    .radar-label { position: absolute; font-family: monospace; font-size: 0.55rem; color: rgba(56,226,176,0.4); letter-spacing: 0.5px; }
+
+    /* Scanning line text */
+    .radar-scan-text { position: absolute; bottom: 8px; left: 0; right: 0; text-align: center; font-family: monospace; font-size: 0.55rem; color: rgba(56,226,176,0.5); letter-spacing: 2px; animation: blink 2s infinite; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+    @keyframes sweep { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
 
     /* THEME CIRCLES STRIP */
     .theme-strip { background: var(--surface); border-bottom: 1px solid var(--border); padding: 20px 32px; }
@@ -248,21 +274,46 @@
 <!-- HERO -->
 <div class="hero">
   <div class="hero-bg"></div>
-  <div class="hero-radar">
-    <div class="radar-ring" style="width:60px;height:60px;margin-left:-30px;margin-top:-30px;"></div>
-    <div class="radar-ring" style="width:120px;height:120px;margin-left:-60px;margin-top:-60px;"></div>
-    <div class="radar-ring" style="width:200px;height:200px;margin-left:-100px;margin-top:-100px;"></div>
-    <div class="radar-ring" style="width:240px;height:240px;margin-left:-120px;margin-top:-120px;"></div>
-    <div class="radar-sweep"></div>
-  </div>
+
   <div class="hero-content">
-    <div class="hero-tag">🛰️ Live oppdatert</div>
-    <h1>Aldri gå glipp av et<br><em>viktig tech-arrangement</em></h1>
+    <div class="hero-tag">🛰️ Nordens tech-arrangementer</div>
+    <h1><em id="heroHeadline">—</em> kommende<br>arrangementer</h1>
     <p>Konferanser, seminarer, meetups og workshops innen KI, digitalisering og teknologi – samlet på ett sted.</p>
     <div class="hero-stats">
-      <div><div class="hero-stat-value" id="heroTotal">—</div><div class="hero-stat-label">Arrangementer</div></div>
-      <div><div class="hero-stat-value" id="heroUpcoming">—</div><div class="hero-stat-label">Kommende</div></div>
+      <div><div class="hero-stat-value" id="heroKI">—</div><div class="hero-stat-label">KI &amp; Data</div></div>
+      <div><div class="hero-stat-value" id="heroThisMonth">—</div><div class="hero-stat-label">Denne måneden</div></div>
       <div><div class="hero-stat-value" id="heroFree">—</div><div class="hero-stat-label">Gratis</div></div>
+    </div>
+    <div class="hero-next" id="heroNext" style="display:none">
+      <span class="next-dot"></span>
+      Neste: <strong id="heroNextTitle">—</strong>&nbsp;•&nbsp;<span id="heroNextDate">—</span>
+    </div>
+  </div>
+
+  <!-- TECH RADAR VISUAL -->
+  <div class="hero-visual">
+    <div class="radar-wrap">
+      <div class="radar-ring radar-ring-1"></div>
+      <div class="radar-ring radar-ring-2"></div>
+      <div class="radar-ring radar-ring-3"></div>
+      <div class="radar-ring radar-ring-4"></div>
+      <div class="radar-cross"></div>
+      <div class="radar-cross-v"></div>
+      <div class="radar-sweep"></div>
+      <div class="radar-center"></div>
+      <!-- Blips -->
+      <div class="radar-blip" style="width:6px;height:6px;top:38%;left:62%;animation-delay:0.5s"></div>
+      <div class="radar-blip" style="width:4px;height:4px;top:28%;left:45%;animation-delay:1.2s"></div>
+      <div class="radar-blip" style="width:5px;height:5px;top:60%;left:35%;animation-delay:0.8s"></div>
+      <div class="radar-blip" style="width:3px;height:3px;top:55%;left:68%;animation-delay:2.1s"></div>
+      <div class="radar-blip" style="width:5px;height:5px;top:72%;left:55%;animation-delay:1.7s"></div>
+      <div class="radar-blip" style="width:4px;height:4px;top:44%;left:25%;animation-delay:0.3s"></div>
+      <!-- Labels -->
+      <div class="radar-label" style="top:4px;left:50%;transform:translateX(-50%)">N 59°</div>
+      <div class="radar-label" style="bottom:4px;left:50%;transform:translateX(-50%)">S 59°</div>
+      <div class="radar-label" style="left:4px;top:50%;transform:translateY(-50%)">W</div>
+      <div class="radar-label" style="right:4px;top:50%;transform:translateY(-50%)">E</div>
+      <div class="radar-scan-text">SCANNING... NORDIC TECH EVENTS</div>
     </div>
   </div>
 </div>
@@ -511,9 +562,25 @@
   }
 
   function updateHeroStats() {
-    document.getElementById('heroTotal').textContent = allEvents.length;
-    document.getElementById('heroUpcoming').textContent = allEvents.filter(e=>!isPast(e)).length;
-    document.getElementById('heroFree').textContent = allEvents.filter(e=>e.price?.toLowerCase().includes('gratis')).length;
+    const upcoming = allEvents.filter(e=>!isPast(e));
+    const thisMonth = new Date().toISOString().slice(0,7);
+    const kiData = upcoming.filter(e=>e.theme==='KI / Maskinlæring'||e.theme==='Data og analyse').length;
+    const thisMonthCount = upcoming.filter(e=>e.date&&e.date.startsWith(thisMonth)).length;
+    const freeCount = allEvents.filter(e=>e.price?.toLowerCase().includes('gratis')).length;
+
+    document.getElementById('heroHeadline').textContent = upcoming.length;
+    document.getElementById('heroKI').textContent = kiData;
+    document.getElementById('heroThisMonth').textContent = thisMonthCount;
+    document.getElementById('heroFree').textContent = freeCount;
+
+    // Neste arrangement
+    const next = upcoming.sort((a,b)=>(a.date||'')>(b.date||'')?1:-1)[0];
+    if (next) {
+      document.getElementById('heroNextTitle').textContent = next.title;
+      const d = new Date(next.date+'T12:00:00');
+      document.getElementById('heroNextDate').textContent = d.toLocaleDateString('nb-NO',{day:'numeric',month:'long'});
+      document.getElementById('heroNext').style.display = 'inline-flex';
+    }
   }
 
   function updateTabCounts() {
